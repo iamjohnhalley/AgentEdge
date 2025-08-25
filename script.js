@@ -1,0 +1,576 @@
+// AgentEdge Website JavaScript
+
+// Global variables
+let currentStep = 1;
+const totalSteps = 4;
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Mobile Navigation Toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+    }
+
+    // Sticky CTA Bar
+    initStickyCTA();
+    
+    // Multi-step Form
+    initMultiStepForm();
+    
+    // County Availability Checker
+    initCountyAvailability();
+
+    // FAQ Accordion
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        
+        if (question && answer) {
+            question.addEventListener('click', function() {
+                const isActive = item.classList.contains('active');
+                
+                // Close all other FAQ items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current item
+                if (isActive) {
+                    item.classList.remove('active');
+                } else {
+                    item.classList.add('active');
+                }
+            });
+        }
+    });
+
+    // Contact Form Handling
+    const auditForm = document.getElementById('auditForm');
+    const successModal = document.getElementById('successModal');
+    const closeModal = document.querySelector('.close');
+    
+    if (auditForm) {
+        auditForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitButton = auditForm.querySelector('.submit-button');
+            const buttonText = submitButton.querySelector('.button-text');
+            const buttonLoading = submitButton.querySelector('.button-loading');
+            
+            // Show loading state
+            if (buttonText && buttonLoading) {
+                buttonText.style.display = 'none';
+                buttonLoading.style.display = 'inline-flex';
+                submitButton.disabled = true;
+            }
+            
+            // Simulate form submission (replace with actual form handling)
+            setTimeout(() => {
+                // Reset button state
+                if (buttonText && buttonLoading) {
+                    buttonText.style.display = 'inline';
+                    buttonLoading.style.display = 'none';
+                    submitButton.disabled = false;
+                }
+                
+                // Show success modal
+                if (successModal) {
+                    successModal.style.display = 'block';
+                }
+                
+                // Reset form
+                auditForm.reset();
+                
+                // Track form submission (replace with actual analytics)
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'form_submit', {
+                        'event_category': 'engagement',
+                        'event_label': 'audit_request'
+                    });
+                }
+            }, 2000);
+        });
+    }
+    
+    // Modal Close Functionality
+    if (closeModal && successModal) {
+        closeModal.addEventListener('click', function() {
+            successModal.style.display = 'none';
+        });
+    }
+    
+    // Close modal when clicking outside
+    if (successModal) {
+        window.addEventListener('click', function(e) {
+            if (e.target === successModal) {
+                successModal.style.display = 'none';
+            }
+        });
+    }
+
+
+
+    // Smooth Scrolling for Anchor Links
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            const target = document.querySelector(href);
+            
+            if (target) {
+                e.preventDefault();
+                const offsetTop = target.offsetTop - 80; // Account for sticky header
+                
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Form Validation Enhancement
+    const formInputs = document.querySelectorAll('input[required], select[required], textarea[required]');
+    
+    formInputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            validateField(this);
+        });
+        
+        input.addEventListener('input', function() {
+            if (this.classList.contains('error')) {
+                validateField(this);
+            }
+        });
+    });
+    
+    function validateField(field) {
+        const value = field.value.trim();
+        const fieldName = field.getAttribute('name');
+        let isValid = true;
+        let errorMessage = '';
+        
+        // Remove existing error styling
+        field.classList.remove('error');
+        const existingError = field.parentNode.querySelector('.error-message');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        // Check if field is required and empty
+        if (field.hasAttribute('required') && !value) {
+            isValid = false;
+            errorMessage = 'This field is required';
+        }
+        
+        // Email validation
+        if (field.type === 'email' && value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                isValid = false;
+                errorMessage = 'Please enter a valid email address';
+            }
+        }
+        
+        // Phone validation (optional)
+        if (field.type === 'tel' && value) {
+            const phoneRegex = /^[\+]?[0-9\s\-\(\)]+$/;
+            if (!phoneRegex.test(value)) {
+                isValid = false;
+                errorMessage = 'Please enter a valid phone number';
+            }
+        }
+        
+        // URL validation
+        if (field.type === 'url' && value) {
+            try {
+                new URL(value);
+            } catch {
+                isValid = false;
+                errorMessage = 'Please enter a valid website URL';
+            }
+        }
+        
+        if (!isValid) {
+            field.classList.add('error');
+            const errorElement = document.createElement('div');
+            errorElement.className = 'error-message';
+            errorElement.textContent = errorMessage;
+            errorElement.style.color = '#ef4444';
+            errorElement.style.fontSize = '0.875rem';
+            errorElement.style.marginTop = '0.25rem';
+            field.parentNode.appendChild(errorElement);
+        }
+        
+        return isValid;
+    }
+
+    // Intersection Observer for Animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, observerOptions);
+    
+    // Observe elements for animation
+    const animateElements = document.querySelectorAll('.benefit-card, .service-card, .package-card, .testimonial-card, .step-item');
+    animateElements.forEach(el => observer.observe(el));
+
+    // CTA Button Click Tracking
+    const ctaButtons = document.querySelectorAll('.cta-button');
+    
+    ctaButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const buttonText = this.textContent.trim();
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'cta_click', {
+                    'event_category': 'engagement',
+                    'event_label': buttonText,
+                    'value': 1
+                });
+            }
+        });
+    });
+
+    // Page Load Performance Tracking
+    window.addEventListener('load', function() {
+        if (typeof gtag !== 'undefined') {
+            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+            gtag('event', 'page_load_time', {
+                'event_category': 'performance',
+                'value': Math.round(loadTime)
+            });
+        }
+    });
+
+    // Scroll Depth Tracking
+    let maxScroll = 0;
+    const scrollMilestones = [25, 50, 75, 100];
+    const trackedMilestones = new Set();
+    
+    window.addEventListener('scroll', function() {
+        const scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+        
+        if (scrollPercent > maxScroll) {
+            maxScroll = scrollPercent;
+            
+            scrollMilestones.forEach(milestone => {
+                if (scrollPercent >= milestone && !trackedMilestones.has(milestone)) {
+                    trackedMilestones.add(milestone);
+                    
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'scroll_depth', {
+                            'event_category': 'engagement',
+                            'event_label': `${milestone}%`,
+                            'value': milestone
+                        });
+                    }
+                }
+            });
+        }
+    });
+
+    // Dynamic County Selection Enhancement
+    const countySelect = document.getElementById('county');
+    
+    if (countySelect) {
+        // Add popular counties to top of list
+        const popularCounties = ['leitrim', 'longford', 'mayo', 'kerry', 'sligo'];
+        const allOptions = Array.from(countySelect.options).slice(1); // Skip the first "Select" option
+        
+        // Sort options: popular first, then alphabetical
+        const sortedOptions = allOptions.sort((a, b) => {
+            const aIsPopular = popularCounties.includes(a.value);
+            const bIsPopular = popularCounties.includes(b.value);
+            
+            if (aIsPopular && !bIsPopular) return -1;
+            if (!aIsPopular && bIsPopular) return 1;
+            if (aIsPopular && bIsPopular) {
+                return popularCounties.indexOf(a.value) - popularCounties.indexOf(b.value);
+            }
+            return a.text.localeCompare(b.text);
+        });
+        
+        // Clear and rebuild options
+        while (countySelect.options.length > 1) {
+            countySelect.remove(1);
+        }
+        
+        sortedOptions.forEach(option => {
+            countySelect.appendChild(option);
+        });
+    }
+});
+
+// Sticky CTA Bar Functions
+function initStickyCTA() {
+    const stickyCTA = document.getElementById('stickyCTA');
+    if (!stickyCTA) return;
+    
+    let hasScrolled = false;
+    
+    window.addEventListener('scroll', function() {
+        const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        
+        if (scrollPercent > 25 && !hasScrolled) {
+            stickyCTA.classList.add('show');
+            hasScrolled = true;
+        } else if (scrollPercent <= 10 && hasScrolled) {
+            stickyCTA.classList.remove('show');
+            hasScrolled = false;
+        }
+    });
+}
+
+// Multi-step Form Functions
+function initMultiStepForm() {
+    updateProgressBar();
+    
+    // Add real-time validation
+    const formInputs = document.querySelectorAll('.form-step input, .form-step select');
+    formInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            validateCurrentStep();
+        });
+    });
+}
+
+function nextStep() {
+    if (!validateCurrentStep()) return;
+    
+    if (currentStep < totalSteps) {
+        // Hide current step
+        const currentStepEl = document.querySelector(`[data-step="${currentStep}"]`);
+        if (currentStepEl) currentStepEl.classList.remove('active');
+        
+        // Show next step
+        currentStep++;
+        const nextStepEl = document.querySelector(`[data-step="${currentStep}"]`);
+        if (nextStepEl) nextStepEl.classList.add('active');
+        
+        updateProgressBar();
+        updateProgressText();
+        
+        // Show submit button on last step
+        if (currentStep === totalSteps) {
+            const submitBtn = document.getElementById('submitBtn');
+            if (submitBtn) submitBtn.style.display = 'block';
+        }
+    }
+}
+
+function prevStep() {
+    if (currentStep > 1) {
+        // Hide current step
+        const currentStepEl = document.querySelector(`[data-step="${currentStep}"]`);
+        if (currentStepEl) currentStepEl.classList.remove('active');
+        
+        // Show previous step
+        currentStep--;
+        const prevStepEl = document.querySelector(`[data-step="${currentStep}"]`);
+        if (prevStepEl) prevStepEl.classList.add('active');
+        
+        updateProgressBar();
+        updateProgressText();
+        
+        // Hide submit button
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) submitBtn.style.display = 'none';
+    }
+}
+
+function updateProgressBar() {
+    const progressFill = document.getElementById('progressFill');
+    if (progressFill) {
+        const percentage = (currentStep / totalSteps) * 100;
+        progressFill.style.width = percentage + '%';
+    }
+}
+
+function updateProgressText() {
+    const progressText = document.getElementById('progressText');
+    if (!progressText) return;
+    
+    const stepTexts = {
+        1: 'Step 1 of 4: Basic Information',
+        2: 'Step 2 of 4: Business Details',
+        3: 'Step 3 of 4: Your Challenge',
+        4: 'Step 4 of 4: Your Goals'
+    };
+    
+    progressText.textContent = stepTexts[currentStep] || '';
+}
+
+function validateCurrentStep() {
+    const currentStepEl = document.querySelector(`[data-step="${currentStep}"]`);
+    if (!currentStepEl) return true;
+    
+    const requiredFields = currentStepEl.querySelectorAll('[required]');
+    let isValid = true;
+    
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            isValid = false;
+            field.classList.add('error');
+        } else {
+            field.classList.remove('error');
+        }
+    });
+    
+    return isValid;
+}
+
+// County Availability Functions
+function initCountyAvailability() {
+    const countySelect = document.getElementById('county');
+    const availabilityEl = document.getElementById('countyAvailability');
+    
+    if (!countySelect || !availabilityEl) return;
+    
+    // Mock availability data (replace with real API call)
+    const countyAvailability = {
+        'leitrim': 'available',
+        'longford': 'available',
+        'mayo': 'taken',
+        'kerry': 'available',
+        'sligo': 'available',
+        'dublin': 'unavailable',
+        'cork': 'unavailable'
+    };
+    
+    countySelect.addEventListener('change', function() {
+        const selectedCounty = this.value;
+        if (!selectedCounty) {
+            availabilityEl.textContent = '';
+            availabilityEl.className = 'county-availability';
+            return;
+        }
+        
+        const status = countyAvailability[selectedCounty] || 'available';
+        availabilityEl.className = `county-availability ${status}`;
+        
+        switch (status) {
+            case 'available':
+                availabilityEl.textContent = '✓ Available - Reserve your spot now!';
+                break;
+            case 'taken':
+                availabilityEl.textContent = '⚠ Currently taken - Join waiting list';
+                break;
+            case 'unavailable':
+                availabilityEl.textContent = '✗ Not available for our service';
+                break;
+        }
+    });
+}
+
+// Video Demo Function
+function playDemoVideo() {
+    // Mock video player (replace with actual video implementation)
+    alert('Demo video would play here. This could open a modal with embedded video or redirect to a video platform.');
+    
+    // Track video play event
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'video_play', {
+            'event_category': 'engagement',
+            'event_label': 'demo_video'
+        });
+    }
+}
+
+// Enhanced Form Submission with Steps
+function handleFormSubmission(formData) {
+    // Collect all form data across steps
+    const allData = {
+        step1: {
+            firstName: document.getElementById('firstName')?.value,
+            lastName: document.getElementById('lastName')?.value,
+            email: document.getElementById('email')?.value,
+            phone: document.getElementById('phone')?.value
+        },
+        step2: {
+            county: document.getElementById('county')?.value,
+            agencyName: document.getElementById('agencyName')?.value,
+            website: document.getElementById('website')?.value
+        },
+        step3: {
+            challenges: document.querySelector('input[name="challenges"]:checked')?.value
+        },
+        step4: {
+            goals: document.getElementById('goals')?.value,
+            consent: document.getElementById('consent')?.checked
+        }
+    };
+    
+    // Track detailed form data
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'form_submit_detailed', {
+            'event_category': 'lead_generation',
+            'county': allData.step2.county,
+            'challenge': allData.step3.challenges,
+            'has_website': !!allData.step2.website
+        });
+    }
+    
+    return allData;
+}
+
+// Utility Functions
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Lazy Loading for Images
+if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+                imageObserver.unobserve(img);
+            }
+        });
+    });
+    
+    const lazyImages = document.querySelectorAll('img[data-src]');
+    lazyImages.forEach(img => imageObserver.observe(img));
+}
+
+// Service Worker Registration for PWA capabilities
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+                console.log('ServiceWorker registration successful');
+            })
+            .catch(function(error) {
+                console.log('ServiceWorker registration failed');
+            });
+    });
+}

@@ -1,0 +1,335 @@
+/* Contact Form UX/UI Improvements */
+
+/* Better form container */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--white);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-xl);
+    padding: var(--space-3xl);
+    border: 1px solid var(--light-gray);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+}
+
+.form-header h2 {
+    color: var(--primary-black);
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+}
+
+.form-header p {
+    color: var(--medium-gray);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+}
+
+/* Improved progress bar */
+.form-progress {
+    margin-bottom: var(--space-3xl);
+}
+
+.progress-bar {
+    height: 4px;
+    background: var(--lighter-gray);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: var(--space-md);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-black), var(--charcoal));
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    width: 25%;
+}
+
+.progress-text {
+    text-align: center;
+    color: var(--medium-gray);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+/* Form step improvements */
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+    animation: fadeInUp 0.4s ease;
+}
+
+.form-step h3 {
+    color: var(--primary-black);
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    margin-bottom: var(--space-xl);
+    text-align: center;
+}
+
+/* Better form groups */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-lg);
+}
+
+.form-group {
+    margin-bottom: var(--space-lg);
+}
+
+.form-group label {
+    display: block;
+    color: var(--primary-black);
+    font-weight: 600;
+    font-size: var(--font-size-base);
+    margin-bottom: var(--space-sm);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: var(--space-md);
+    border: 2px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+    color: var(--primary-black);
+    background: var(--white);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-black);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--medium-gray);
+}
+
+.form-group small {
+    display: block;
+    color: var(--medium-gray);
+    font-size: var(--font-size-sm);
+    margin-top: var(--space-xs);
+}
+
+/* Improved navigation buttons */
+.form-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--lighter-gray);
+}
+
+.btn-prev,
+.btn-next {
+    padding: var(--space-md) var(--space-xl);
+    border: 2px solid var(--light-gray);
+    background: var(--white);
+    color: var(--medium-gray);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.btn-prev:hover,
+.btn-next:hover {
+    border-color: var(--primary-black);
+    color: var(--primary-black);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-next {
+    background: var(--primary-black);
+    color: var(--white);
+    border-color: var(--primary-black);
+}
+
+.btn-next:hover {
+    background: var(--charcoal);
+    color: var(--white);
+}
+
+/* Challenge options improvements */
+.challenge-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-md);
+}
+
+.challenge-option {
+    cursor: pointer;
+}
+
+.challenge-option input[type="radio"] {
+    display: none;
+}
+
+.option-content {
+    padding: var(--space-lg);
+    border: 2px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: all 0.3s ease;
+    background: var(--white);
+}
+
+.option-content:hover {
+    border-color: var(--primary-black);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.challenge-option input[type="radio"]:checked + .option-content {
+    border-color: var(--primary-black);
+    background: var(--lightest-gray);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.option-content i {
+    font-size: var(--font-size-xl);
+    color: var(--primary-black);
+    margin-bottom: var(--space-sm);
+}
+
+.option-content span {
+    display: block;
+    color: var(--primary-black);
+    font-weight: 500;
+    font-size: var(--font-size-base);
+}
+
+/* Better submit button */
+.submit-button {
+    width: 100%;
+    padding: var(--space-lg) var(--space-xl);
+    background: linear-gradient(135deg, var(--primary-black), var(--charcoal));
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius-lg);
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: var(--space-xl);
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+}
+
+.submit-button:active {
+    transform: translateY(0);
+}
+
+.button-text,
+.button-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+}
+
+/* Form guarantee styling */
+.form-guarantee {
+    text-align: center;
+    margin-top: var(--space-lg);
+    padding: var(--space-md);
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+    border: 1px solid var(--success);
+    border-radius: var(--border-radius);
+    color: var(--success);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+}
+
+.form-guarantee i {
+    margin-right: var(--space-sm);
+}
+
+/* Checkbox group improvements */
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.checkbox-group label {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+    color: var(--medium-gray);
+    font-weight: 400;
+}
+
+/* County availability styling */
+.county-availability {
+    color: var(--success);
+    font-weight: 600;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .form-container {
+        padding: var(--space-2xl);
+        margin: var(--space-lg);
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .form-nav {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+    
+    .btn-prev,
+    .btn-next {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .challenge-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-step h3 {
+        font-size: var(--font-size-lg);
+    }
+}

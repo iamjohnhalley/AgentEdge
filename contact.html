@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get your free website audit from AgentEdge. Contact us for estate agent marketing services in rural Ireland. 24-hour response guaranteed.">
+    <meta name="keywords" content="free website audit, estate agent marketing contact, AgentEdge contact form, rural Ireland estate agents">
+    <title>Contact Us - Get Your Free Website Audit | AgentEdge</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <img src="images/logo.svg" alt="AgentEdge" class="logo">
+                    <span class="brand-text">AgentEdge</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="services.html" class="nav-link">Services</a></li>
+                    <li><a href="how-it-works.html" class="nav-link">How It Works</a></li>
+                    <li><a href="pricing-calculator.html" class="nav-link">Pricing</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="contact.html" class="nav-link active">Contact</a></li>
+                </ul>
+                <a href="#audit-form" class="cta-button">Get Free Audit</a>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="header-content">
+                <h1>Get Your Free Website Audit</h1>
+                <p>Discover exactly what's holding your marketing back and how to fix it. No cost, no commitment, just actionable insights delivered in 24 hours.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section" id="audit-form">
+        <div class="container">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Start Your Free Audit</h2>
+                    <p>Fill out the form below and we'll analyze your current marketing and send you a detailed report within 24 hours.</p>
+                </div>
+                
+                <div class="form-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progressText">Step 1 of 4: Basic Information</span>
+                    </div>
+                </div>
+                
+                <form class="audit-form" id="auditForm">
+                    <div class="form-step active" data-step="1">
+                        <h3>Tell us about yourself</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required placeholder="Enter your first name">
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required placeholder="Enter your last name">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required placeholder="your@email.ie">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="+353 XX XXX XXXX">
+                            </div>
+                        </div>
+                        
+                        <div class="form-nav">
+                            <button type="button" class="btn-next" onclick="nextStep()">
+                                Continue
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-step" data-step="2">
+                        <h3>Your business details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="county">County *</label>
+                                <select id="county" name="county" required>
+                                    <option value="">Select your county</option>
+                                    <optgroup label="Popular Counties">
+                                        <option value="leitrim">Leitrim</option>
+                                        <option value="longford">Longford</option>
+                                        <option value="mayo">Mayo</option>
+                                        <option value="kerry">Kerry</option>
+                                        <option value="sligo">Sligo</option>
+                                    </optgroup>
+                                    <optgroup label="All Counties">
+                                        <option value="carlow">Carlow</option>
+                                        <option value="cavan">Cavan</option>
+                                        <option value="clare">Clare</option>
+                                        <option value="cork">Cork</option>
+                                        <option value="donegal">Donegal</option>
+                                        <option value="dublin">Dublin</option>
+                                        <option value="galway">Galway</option>
+                                        <option value="kildare">Kildare</option>
+                                        <option value="kilkenny">Kilkenny</option>
+                                        <option value="laois">Laois</option>
+                                        <option value="limerick">Limerick</option>
+                                        <option value="louth">Louth</option>
+                                        <option value="meath">Meath</option>
+                                        <option value="monaghan">Monaghan</option>
+                                        <option value="offaly">Offaly</option>
+                                        <option value="roscommon">Roscommon</option>
+                                        <option value="tipperary">Tipperary</option>
+                                        <option value="waterford">Waterford</option>
+                                        <option value="westmeath">Westmeath</option>
+                                        <option value="wexford">Wexford</option>
+                                        <option value="wicklow">Wicklow</option>
+                                    </optgroup>
+                                </select>
+                                <small class="county-availability" id="countyAvailability"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="agencyName">Agency Name</label>
+                                <input type="text" id="agencyName" name="agencyName" placeholder="Your Estate Agency">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="website">Current Website URL</label>
+                            <input type="url" id="website" name="website" placeholder="https://yourwebsite.ie">
+                            <small>If you don't have a website, leave this blank</small>
+                        </div>
+                        
+                        <div class="form-nav">
+                            <button type="button" class="btn-prev" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Back
+                            </button>
+                            <button type="button" class="btn-next" onclick="nextStep()">
+                                Continue
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-step" data-step="3">
+                        <h3>What's your biggest challenge?</h3>
+                        <div class="form-group">
+                            <label for="challenges">Main Challenge *</label>
+                            <div class="challenge-options">
+                                <label class="challenge-option">
+                                    <input type="radio" name="challenges" value="no-website" required>
+                                    <div class="option-content">
+                                        <i class="fas fa-globe"></i>
+                                        <span>No website or outdated website</span>
+                                    </div>
+                                </label>
+                                <label class="challenge-option">
+                                    <input type="radio" name="challenges" value="no-leads" required>
+                                    <div class="option-content">
+                                        <i class="fas fa-chart-line"></i>
+                                        <span>Not getting enough leads</span>
+                                    </div>
+                                </label>
+                                <label class="challenge-option">
+                                    <input type="radio" name="challenges" value="social-media" required>
+                                    <div class="option-content">
+                                        <i class="fas fa-share-alt"></i>
+                                        <span>Poor social media presence</span>
+                                    </div>
+                                </label>
+                                <label class="challenge-option">
+                                    <input type="radio" name="challenges" value="google-visibility" required>
+                                    <div class="option-content">
+                                        <i class="fas fa-search"></i>
+                                        <span>Not showing up on Google</span>
+                                    </div>
+                                </label>
+                                <label class="challenge-option">
+                                    <input type="radio" name="challenges" value="competition" required>
+                                    <div class="option-content">
+                                        <i class="fas fa-users"></i>
+                                        <span>Losing business to competitors</span>
+                                    </div>
+                                </label>
+                                <label class="challenge-option">
+                                    <input type="radio" name="challenges" value="time" required>
+                                    <div class="option-content">
+                                        <i class="fas fa-clock"></i>
+                                        <span>No time for marketing</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-nav">
+                            <button type="button" class="btn-prev" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Back
+                            </button>
+                            <button type="button" class="btn-next" onclick="nextStep()">
+                                Continue
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-step" data-step="4">
+                        <h3>What would success look like?</h3>
+                        <div class="form-group">
+                            <label for="goals">Your Goals</label>
+                            <textarea id="goals" name="goals" rows="4" placeholder="e.g., More valuation requests, better online presence, competing with larger agencies..."></textarea>
+                        </div>
+                        
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="consent" name="consent" required>
+                            <label for="consent">I agree to receive marketing communications from AgentEdge and understand that my information will be used to provide my free audit. I can unsubscribe at any time. *</label>
+                        </div>
+                        
+                        <div class="form-nav">
+                            <button type="button" class="btn-prev" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Back
+                            </button>
+                        </div>
+                        
+                        <!-- Submit button only appears on final step -->
+                        <button type="submit" class="submit-button" id="submitBtn">
+                            <span class="button-text">
+                                <i class="fas fa-rocket"></i>
+                                Get My Free Audit
+                            </span>
+                            <span class="button-loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i> Submitting...
+                            </span>
+                        </button>
+                        
+                        <div class="form-guarantee">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>100% Free • No Spam • 24-Hour Response</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Info Section -->
+    <section class="contact-info">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email Us</h3>
+                    <p><a href="mailto:sarah@agentedge.ie">sarah@agentedge.ie</a></p>
+                    <small>Response within 24 hours</small>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>WhatsApp Support</h3>
+                    <p><a href="tel:+353-XX-XXX-XXXX">+353-XX-XXX-XXXX</a></p>
+                    <small>Quick questions and support</small>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Response Time</h3>
+                    <p>Within 24 hours</p>
+                    <small>Usually much faster</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>What's included in the free audit?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Your free audit includes a comprehensive analysis of your website speed, mobile performance, local SEO, Google Business Profile, social media presence, and competitor comparison. You'll receive a detailed report with specific recommendations for improvement.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>How long does the audit take?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We complete most audits within 24 hours of receiving your information. For more complex websites or if we need additional information, it may take up to 48 hours.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>What if I don't have a website?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>No problem! We'll analyze your current online presence (social media, Google Business Profile, online directories) and provide recommendations for creating a professional website that generates leads.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Is there really no cost or obligation?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely. The audit is completely free with no strings attached. We provide valuable insights regardless of whether you decide to work with us. It's our way of demonstrating our expertise and helping the Irish estate agent community.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>What happens after I submit the form?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You'll receive an email confirmation immediately. Within 24 hours, we'll send you a detailed audit report. If you're interested in learning more, we'll schedule a brief 10-minute call to discuss your specific needs and goals.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Do you work with agents outside rural counties?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We specialize in rural counties where independent agents face unique challenges. However, we're happy to discuss your specific situation regardless of location. Submit the audit form and we'll let you know if we can help.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stories -->
+    <section class="success-stories">
+        <div class="container">
+            <h2>What Happens After Your Audit</h2>
+            <div class="stories-grid">
+                <div class="story-card">
+                    <div class="story-quote">
+                        <i class="fas fa-quote-left"></i>
+                        <p>"The free audit opened my eyes to so many missed opportunities. Within 3 months of implementing their recommendations, I doubled my valuation requests."</p>
+                    </div>
+                    <div class="story-author">
+                        <img src="images/success-1.jpg" alt="Michael from Roscommon">
+                        <div>
+                            <div class="author-name">Michael O'Brien</div>
+                            <div class="author-location">Independent Agent, Roscommon</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-card">
+                    <div class="story-quote">
+                        <i class="fas fa-quote-left"></i>
+                        <p>"I was skeptical about the 'free' audit, but it was incredibly detailed and valuable. Even if I hadn't hired them, I would have learned a lot."</p>
+                    </div>
+                    <div class="story-author">
+                        <img src="images/success-2.jpg" alt="Claire from Longford">
+                        <div>
+                            <div class="author-name">Claire Fitzgerald</div>
+                            <div class="author-location">Independent Agent, Longford</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to See What You're Missing?</h2>
+                <p>Your competitors might already have the marketing edge. Don't wait—discover your opportunities today.</p>
+                <a href="#audit-form" class="cta-button primary large">Get Your Free Audit Now</a>
+                <div class="cta-benefits">
+                    <div class="benefit">
+                        <i class="fas fa-check"></i>
+                        <span>Detailed analysis in 24 hours</span>
+                    </div>
+                    <div class="benefit">
+                        <i class="fas fa-check"></i>
+                        <span>No cost or commitment</span>
+                    </div>
+                    <div class="benefit">
+                        <i class="fas fa-check"></i>
+                        <span>Actionable recommendations</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand">
+                        <img src="images/logo.svg" alt="AgentEdge" class="logo">
+                        <span class="brand-text">AgentEdge</span>
+                    </div>
+                    <p>Empowering independent estate agents in rural Ireland with professional marketing solutions.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Services</h4>
+                        <ul>
+                            <li><a href="services.html">Website Development</a></li>
+                            <li><a href="services.html">Social Media Management</a></li>
+                            <li><a href="services.html">Google Business Profile</a></li>
+                            <li><a href="services.html">SEO & Content</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="how-it-works.html">How It Works</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="privacy.html">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h4>Contact</h4>
+                        <ul>
+                            <li><a href="mailto:sarah@agentedge.ie">sarah@agentedge.ie</a></li>
+                            <li><a href="tel:+353-XX-XXX-XXXX">WhatsApp Support</a></li>
+                            <li>Response within 24 hours</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AgentEdge. All rights reserved.</p>
+                <p>Helping independent estate agents across Ireland succeed online.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="success-content">
+                <i class="fas fa-check-circle"></i>
+                <h3>Audit Request Submitted!</h3>
+                <p>Thank you for your interest in AgentEdge. We'll analyze your marketing and send you a detailed report within 24 hours.</p>
+                <p><strong>What's next?</strong></p>
+                <ul>
+                    <li>Check your email for a confirmation</li>
+                    <li>Expect your audit report within 24 hours</li>
+                    <li>We may reach out to schedule a brief call</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your AgentEdge marketing costs. Transparent pricing for independent estate agents in rural Ireland.">
+    <title>Pricing Calculator - AgentEdge</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <img src="images/logo.svg" alt="AgentEdge" class="logo">
+                    <span class="brand-text">AgentEdge</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="services.html" class="nav-link">Services</a></li>
+                    <li><a href="how-it-works.html" class="nav-link">How It Works</a></li>
+                    <li><a href="pricing-calculator.html" class="nav-link active">Pricing</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                <a href="contact.html" class="cta-button">Get Free Audit</a>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Pricing Calculator</h1>
+            <p>See exactly how much AgentEdge will cost for your office</p>
+        </div>
+    </section>
+
+    <!-- Pricing Calculator -->
+    <section class="pricing-calculator">
+        <div class="container">
+            <div class="calculator-container">
+                <div class="calculator-input">
+                    <h2>Calculate Your Investment</h2>
+                    <p>Transparent pricing with no hidden fees</p>
+                    
+                    <div class="input-group">
+                        <label for="agentCount">How many agents in your office?</label>
+                        <div class="agent-selector">
+                            <button type="button" class="agent-btn" data-count="1">1 Agent</button>
+                            <button type="button" class="agent-btn" data-count="2">2 Agents</button>
+                            <button type="button" class="agent-btn" data-count="3">3 Agents</button>
+                            <button type="button" class="agent-btn" data-count="4">4 Agents</button>
+                            <button type="button" class="agent-btn" data-count="5">5+ Agents</button>
+                        </div>
+                    </div>
+
+                    <div class="county-input">
+                        <label for="county">Your County</label>
+                        <select id="county" name="county">
+                            <option value="">Select your county</option>
+                            <option value="carlow">Carlow</option>
+                            <option value="cavan">Cavan</option>
+                            <option value="clare">Clare</option>
+                            <option value="cork">Cork</option>
+                            <option value="donegal">Donegal</option>
+                            <option value="dublin">Dublin</option>
+                            <option value="galway">Galway</option>
+                            <option value="kerry">Kerry</option>
+                            <option value="kildare">Kildare</option>
+                            <option value="kilkenny">Kilkenny</option>
+                            <option value="laois">Laois</option>
+                            <option value="leitrim">Leitrim</option>
+                            <option value="limerick">Limerick</option>
+                            <option value="longford">Longford</option>
+                            <option value="louth">Louth</option>
+                            <option value="mayo">Mayo</option>
+                            <option value="meath">Meath</option>
+                            <option value="monaghan">Monaghan</option>
+                            <option value="offaly">Offaly</option>
+                            <option value="roscommon">Roscommon</option>
+                            <option value="sligo">Sligo</option>
+                            <option value="tipperary">Tipperary</option>
+                            <option value="waterford">Waterford</option>
+                            <option value="westmeath">Westmeath</option>
+                            <option value="wexford">Wexford</option>
+                            <option value="wicklow">Wicklow</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="calculator-result">
+                    <div class="pricing-breakdown">
+                        <h3>Your Monthly Investment</h3>
+                        
+                        <div class="price-line base-price">
+                            <span class="price-label">Base Package (Office-wide services)</span>
+                            <span class="price-value">€396</span>
+                        </div>
+                        
+                        <div class="price-line additional-agents" style="display: none;">
+                            <span class="price-label">Additional Agents (<span class="agent-count">0</span> × €97)</span>
+                            <span class="price-value">€<span class="additional-cost">0</span></span>
+                        </div>
+                        
+                        <div class="price-divider"></div>
+                        
+                        <div class="price-line total-price">
+                            <span class="price-label"><strong>Total Monthly Cost</strong></span>
+                            <span class="price-value total"><strong>€<span class="total-amount">396</span></strong></span>
+                        </div>
+                        
+                        <div class="cost-breakdown">
+                            <div class="breakdown-grid">
+                                <div class="breakdown-item">
+                                    <div class="breakdown-icon">
+                                        <i class="fas fa-calendar-day"></i>
+                                    </div>
+                                    <div class="breakdown-content">
+                                        <span class="breakdown-value">€<span class="daily-cost">13</span></span>
+                                        <span class="breakdown-label">Per Day Total</span>
+                                    </div>
+                                </div>
+                                <div class="breakdown-item">
+                                    <div class="breakdown-icon">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="breakdown-content">
+                                        <span class="breakdown-value">€<span class="per-agent-daily">13</span></span>
+                                        <span class="breakdown-label">Per Agent Per Day</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="whats-included">
+                        <h4>Everything Included</h4>
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <i class="fas fa-globe"></i>
+                                <span>Professional Website</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-share-alt"></i>
+                                <span>Social Media (4 posts/week)</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-video"></i>
+                                <span>1 Video Per Week</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-search"></i>
+                                <span>Google Optimization</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-palette"></i>
+                                <span>Creative Services</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-headset"></i>
+                                <span>24/7 WhatsApp Support</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="calculator-cta">
+                        <div class="guarantee-badge">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Don't pay until we get you your first lead</span>
+                        </div>
+                        <a href="contact.html" class="cta-button primary large">Get Your Free Audit</a>
+                        <p class="county-exclusive" style="display: none;">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span class="county-name"></span> is still available for exclusive partnership
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Comparison -->
+    <section class="value-comparison">
+        <div class="container">
+            <h2>Compare the Value</h2>
+            <div class="comparison-grid">
+                <div class="comparison-column traditional">
+                    <h3>Hiring Your Own Marketing</h3>
+                    <div class="comparison-price">€2,500+/month</div>
+                    <ul>
+                        <li>Recruitment & training time</li>
+                        <li>Salary + PRSI + benefits</li>
+                        <li>Managing another employee</li>
+                        <li>Limited experience with rural markets</li>
+                        <li>What if they leave or get sick?</li>
+                    </ul>
+                </div>
+                <div class="comparison-column agentedge">
+                    <h3>AgentEdge</h3>
+                    <div class="comparison-price">€396+/month</div>
+                    <ul>
+                        <li>No contracts, cancel anytime</li>
+                        <li>No setup fees</li>
+                        <li>Rural Ireland specialists</li>
+                        <li>County exclusive</li>
+                        <li>Don't pay until first lead</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="images/logo.svg" alt="AgentEdge" class="footer-logo">
+                        <span class="brand-text">AgentEdge</span>
+                    </div>
+                    <p>Done-for-you digital marketing for independent estate agents in rural Ireland.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="services.html">Website Development</a></li>
+                        <li><a href="services.html">Social Media Marketing</a></li>
+                        <li><a href="services.html">Google Business Optimization</a></li>
+                        <li><a href="services.html">Content Creation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="how-it-works.html">How It Works</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> sarah@agentedge.ie</p>
+                        <p><i class="fas fa-phone"></i> +353 (0)85 123 4567</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Rural Ireland</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AgentEdge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="pricing-calculator.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

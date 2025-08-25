@@ -1,0 +1,380 @@
+/* Add pricing calculator styles to the end of the existing CSS */
+
+/* Pricing Calculator Styles */
+.pricing-calculator {
+    padding: var(--space-4xl) 0;
+    background: var(--lightest-gray);
+}
+
+.calculator-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.calculator-input {
+    background: var(--white);
+    padding: var(--space-3xl);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-lg);
+    border: 2px solid var(--light-gray);
+}
+
+.calculator-input h2 {
+    color: var(--primary-black);
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+}
+
+.calculator-input p {
+    color: var(--medium-gray);
+    margin-bottom: var(--space-2xl);
+}
+
+.input-group {
+    margin-bottom: var(--space-2xl);
+}
+
+.input-group label {
+    display: block;
+    color: var(--primary-black);
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+    font-size: var(--font-size-lg);
+}
+
+.agent-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.agent-btn {
+    padding: var(--space-md) var(--space-lg);
+    background: var(--white);
+    border: 2px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    color: var(--medium-gray);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: var(--font-size-base);
+}
+
+.agent-btn:hover {
+    border-color: var(--primary-black);
+    color: var(--primary-black);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.agent-btn.active {
+    background: var(--primary-black);
+    border-color: var(--primary-black);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.county-input {
+    margin-top: var(--space-xl);
+}
+
+.county-input label {
+    display: block;
+    color: var(--primary-black);
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+    font-size: var(--font-size-lg);
+}
+
+.county-input select {
+    width: 100%;
+    padding: var(--space-md);
+    border: 2px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+    color: var(--primary-black);
+    background: var(--white);
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.county-input select:focus {
+    outline: none;
+    border-color: var(--primary-black);
+}
+
+.calculator-result {
+    background: var(--white);
+    padding: var(--space-3xl);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-lg);
+    border: 2px solid var(--primary-black);
+    height: fit-content;
+    transition: opacity 0.3s ease;
+}
+
+.pricing-breakdown {
+    margin-bottom: var(--space-2xl);
+}
+
+.pricing-breakdown h3 {
+    color: var(--primary-black);
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    margin-bottom: var(--space-lg);
+}
+
+.price-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid var(--lighter-gray);
+}
+
+.price-line:last-child {
+    border-bottom: none;
+}
+
+.price-label {
+    color: var(--medium-gray);
+    font-size: var(--font-size-base);
+}
+
+.price-value {
+    color: var(--primary-black);
+    font-weight: 600;
+    font-size: var(--font-size-base);
+}
+
+.total-price {
+    border-top: 2px solid var(--primary-black);
+    margin-top: var(--space-md);
+    padding-top: var(--space-lg);
+    transition: transform 0.3s ease;
+}
+
+.total-price .price-label,
+.total-price .price-value {
+    font-size: var(--font-size-lg);
+}
+
+.price-divider {
+    height: 1px;
+    background: var(--light-gray);
+    margin: var(--space-lg) 0;
+}
+
+.price-comparison {
+    display: flex;
+    gap: var(--space-xl);
+    margin-top: var(--space-lg);
+    padding: var(--space-lg);
+    background: var(--lightest-gray);
+    border-radius: var(--border-radius);
+}
+
+.comparison-item {
+    text-align: center;
+    flex: 1;
+}
+
+.comparison-label {
+    display: block;
+    color: var(--medium-gray);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-xs);
+}
+
+.comparison-value {
+    color: var(--primary-black);
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+}
+
+.whats-included {
+    margin-bottom: var(--space-2xl);
+}
+
+.whats-included h4 {
+    color: var(--primary-black);
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+}
+
+.included-features {
+    list-style: none;
+    padding: 0;
+}
+
+.included-features li {
+    display: flex;
+    align-items: center;
+    padding: var(--space-xs) 0;
+    color: var(--medium-gray);
+    font-size: var(--font-size-sm);
+}
+
+.included-features li i {
+    color: var(--success);
+    margin-right: var(--space-sm);
+    font-size: var(--font-size-sm);
+}
+
+.calculator-cta {
+    text-align: center;
+    padding: var(--space-xl);
+    background: linear-gradient(135deg, var(--lightest-gray), var(--white));
+    border-radius: var(--border-radius);
+    border: 1px solid var(--light-gray);
+}
+
+.calculator-cta h4 {
+    color: var(--primary-black);
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+}
+
+.guarantee-text {
+    color: var(--success);
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-base);
+}
+
+.county-exclusive {
+    color: var(--success);
+    font-weight: 500;
+    margin-top: var(--space-md);
+    font-size: var(--font-size-sm);
+}
+
+.county-exclusive i {
+    margin-right: var(--space-xs);
+}
+
+/* Value Comparison Section */
+.value-comparison {
+    padding: var(--space-4xl) 0;
+    background: var(--white);
+}
+
+.value-comparison h2 {
+    text-align: center;
+    color: var(--primary-black);
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    margin-bottom: var(--space-3xl);
+}
+
+.value-comparison .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.comparison-column {
+    padding: var(--space-2xl);
+    border-radius: var(--border-radius-xl);
+    text-align: center;
+}
+
+.comparison-column.traditional {
+    background: var(--lightest-gray);
+    border: 2px solid var(--light-gray);
+}
+
+.comparison-column.agentedge {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+    border: 2px solid var(--success);
+}
+
+.comparison-column h3 {
+    color: var(--primary-black);
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+}
+
+.comparison-price {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--primary-black);
+    margin-bottom: var(--space-lg);
+}
+
+.comparison-column ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.comparison-column ul li {
+    padding: var(--space-sm) 0;
+    color: var(--medium-gray);
+    font-size: var(--font-size-base);
+    position: relative;
+    padding-left: var(--space-lg);
+}
+
+.comparison-column.traditional ul li::before {
+    content: '✗';
+    position: absolute;
+    left: 0;
+    color: #ef4444;
+    font-weight: 700;
+}
+
+.comparison-column.agentedge ul li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--success);
+    font-weight: 700;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .calculator-container {
+        grid-template-columns: 1fr;
+        gap: var(--space-2xl);
+    }
+    
+    .value-comparison .comparison-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .calculator-input,
+    .calculator-result {
+        padding: var(--space-2xl);
+    }
+    
+    .agent-selector {
+        flex-direction: column;
+    }
+    
+    .agent-btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .price-comparison {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+    
+    .calculator-cta {
+        padding: var(--space-lg);
+    }
+}
