@@ -3991,7 +3991,7 @@ img[data-src]::before {
 
 /* Modal Styles */
 .modal {
-    display: none;
+    display: none !important;
     position: fixed;
     z-index: 10000;
     left: 0;
@@ -4000,6 +4000,10 @@ img[data-src]::before {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
+}
+
+.modal.show {
+    display: block !important;
 }
 
 .modal-content {

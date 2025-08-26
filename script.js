@@ -204,7 +204,7 @@ Reply to this email to contact the lead directly.
                     console.log('EmailJS success');
                     // Show success modal
                     if (successModal) {
-                        successModal.style.display = 'block';
+                        successModal.classList.add('show');
                     }
                     
                     // Reset form
@@ -234,7 +234,7 @@ Reply to this email to contact the lead directly.
                     
                     // Show success modal anyway
                     if (successModal) {
-                        successModal.style.display = 'block';
+                        successModal.classList.add('show');
                     }
                     
                     // Reset form
@@ -264,7 +264,7 @@ Reply to this email to contact the lead directly.
                     
                     // Show success modal
                     if (successModal) {
-                        successModal.style.display = 'block';
+                        successModal.classList.add('show');
                     }
                     
                     // Reset form
@@ -307,7 +307,7 @@ Reply to this email to contact the lead directly.
     // Modal Close Functionality
     if (closeModal && successModal) {
         closeModal.addEventListener('click', function() {
-            successModal.style.display = 'none';
+            successModal.classList.remove('show');
         });
     }
     
@@ -315,7 +315,7 @@ Reply to this email to contact the lead directly.
     if (successModal) {
         window.addEventListener('click', function(e) {
             if (e.target === successModal) {
-                successModal.style.display = 'none';
+                successModal.classList.remove('show');
             }
         });
     }
