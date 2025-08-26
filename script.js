@@ -115,32 +115,55 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeModal = document.querySelector('.close');
     
     if (auditForm) {
+        console.log('🔧 DEBUG: Audit form found and event listener attached');
         auditForm.addEventListener('submit', function(e) {
-            console.log('Form submission triggered');
-            
-            // Validate the final step
-            if (!validateCurrentStep()) {
-                console.log('Form validation failed');
-                alert('Please fill in all required fields before submitting.');
-                e.preventDefault();
-                return;
-            }
+            console.log('🚀 DEBUG: Form submission triggered');
+            console.log('📝 DEBUG: Current step:', currentStep);
+            console.log('📊 DEBUG: Total steps:', totalSteps);
             
             // Always prevent default and use JavaScript submission
             e.preventDefault();
+            console.log('⛔ DEBUG: Default form submission prevented');
+            
+            // Validate the final step
+            if (!validateCurrentStep()) {
+                console.log('❌ DEBUG: Form validation failed');
+                console.log('🔍 DEBUG: Checking required fields...');
+                
+                // Debug which fields are missing
+                const requiredFields = auditForm.querySelectorAll('[required]');
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        console.log('❌ DEBUG: Missing field:', field.name, field.id);
+                    } else {
+                        console.log('✅ DEBUG: Field filled:', field.name, field.id, field.value);
+                    }
+                });
+                
+                alert('Please fill in all required fields before submitting.');
+                return;
+            }
+            
+            console.log('✅ DEBUG: Form validation passed');
             
             const submitButton = auditForm.querySelector('.submit-button');
             const buttonText = submitButton.querySelector('.button-text');
             const buttonLoading = submitButton.querySelector('.button-loading');
             
+            console.log('🔄 DEBUG: Starting form submission process');
+            
             // Show loading state
             if (buttonText && buttonLoading) {
+                console.log('⏳ DEBUG: Showing loading state');
                 buttonText.style.display = 'none';
                 buttonLoading.style.display = 'inline-flex';
                 submitButton.disabled = true;
+            } else {
+                console.log('⚠️ DEBUG: Submit button elements not found');
             }
             
             // Collect form data
+            console.log('📊 DEBUG: Collecting form data');
             const formData = new FormData(auditForm);
             const templateParams = {
                 firstName: formData.get('firstName') || '',
@@ -155,6 +178,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 submissionDate: new Date().toLocaleDateString('en-IE'),
                 submissionTime: new Date().toLocaleTimeString('en-IE')
             };
+            
+            console.log('📋 DEBUG: Template params:', templateParams);
 
             // Create mailto link with form data
             const subject = encodeURIComponent('🚀 New Audit Request from ' + templateParams.firstName + ' ' + templateParams.lastName);
@@ -185,9 +210,13 @@ Reply to this email to contact the lead directly.
             `.trim());
             
             // Try EmailJS first, fallback to mailto
+            console.log('📧 DEBUG: Checking EmailJS availability');
+            console.log('📧 DEBUG: EmailJS available:', typeof emailjs !== 'undefined');
+            
             if (typeof emailjs !== 'undefined') {
-                // Use EmailJS for professional email delivery
-                emailjs.send('service_j6k4k8m', 'template_8h9x2vr', {
+                console.log('✅ DEBUG: EmailJS is available, attempting to send');
+                
+                const emailJSParams = {
                     from_name: templateParams.firstName + ' ' + templateParams.lastName,
                     from_email: templateParams.email,
                     phone: templateParams.phone || 'Not provided',
@@ -199,9 +228,15 @@ Reply to this email to contact the lead directly.
                     submission_date: templateParams.submissionDate,
                     submission_time: templateParams.submissionTime,
                     to_email: 'sarah@agentedge.ie'
-                })
+                };
+                
+                console.log('📧 DEBUG: EmailJS params:', emailJSParams);
+                console.log('🔧 DEBUG: Using service_j6k4k8m and template_8h9x2vr');
+                
+                // Use EmailJS for professional email delivery
+                emailjs.send('service_j6k4k8m', 'template_8h9x2vr', emailJSParams)
                 .then(() => {
-                    console.log('EmailJS success');
+                    console.log('✅ DEBUG: EmailJS success');
                     // Show success modal
                     if (successModal) {
                         successModal.classList.add('show');
@@ -228,13 +263,20 @@ Reply to this email to contact the lead directly.
                     }
                 })
                 .catch((error) => {
-                    console.error('EmailJS failed:', error);
+                    console.error('❌ DEBUG: EmailJS failed:', error);
+                    console.log('🔄 DEBUG: Falling back to mailto');
+                    
                     // Fallback to mailto
-                    window.open(`mailto:sarah@agentedge.ie?subject=${subject}&body=${body}`);
+                    const mailtoUrl = `mailto:sarah@agentedge.ie?subject=${subject}&body=${body}`;
+                    console.log('📧 DEBUG: Opening mailto URL:', mailtoUrl);
+                    window.open(mailtoUrl);
                     
                     // Show success modal anyway
+                    console.log('✅ DEBUG: Showing success modal (mailto fallback)');
                     if (successModal) {
                         successModal.classList.add('show');
+                    } else {
+                        console.log('⚠️ DEBUG: Success modal not found');
                     }
                     
                     // Reset form
@@ -258,13 +300,21 @@ Reply to this email to contact the lead directly.
                     }
                 });
             } else {
+                console.log('⚠️ DEBUG: EmailJS not available, using mailto fallback');
+                
                 // Fallback to mailto if EmailJS not available
                 setTimeout(() => {
-                    window.open(`mailto:sarah@agentedge.ie?subject=${subject}&body=${body}`);
+                    const mailtoUrl = `mailto:sarah@agentedge.ie?subject=${subject}&body=${body}`;
+                    console.log('📧 DEBUG: Opening mailto URL (no EmailJS):', mailtoUrl);
+                    window.open(mailtoUrl);
                     
                     // Show success modal
+                    console.log('✅ DEBUG: Showing success modal (no EmailJS)');
                     if (successModal) {
                         successModal.classList.add('show');
+                        console.log('✅ DEBUG: Success modal shown');
+                    } else {
+                        console.log('⚠️ DEBUG: Success modal not found');
                     }
                     
                     // Reset form
@@ -301,6 +351,14 @@ Reply to this email to contact the lead directly.
                 };
                 return challenges[challenge] || challenge || 'Not specified';
             }
+        });
+    } else {
+        console.log('❌ DEBUG: Audit form element not found - form submission will not work');
+        console.log('🔍 DEBUG: Looking for element with ID "auditForm"');
+        const allForms = document.querySelectorAll('form');
+        console.log('📋 DEBUG: Found', allForms.length, 'form elements on page');
+        allForms.forEach((form, index) => {
+            console.log(`📋 DEBUG: Form ${index + 1}:`, form.id, form.className);
         });
     }
     
