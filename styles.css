@@ -2887,6 +2887,14 @@ a:hover {
     text-align: center;
 }
 
+.final-cta .cta-content h2 {
+    color: var(--text-dark);
+}
+
+.final-cta .cta-content p {
+    color: var(--medium-gray);
+}
+
 /* Footer */
 .footer {
     background: var(--primary-black);
