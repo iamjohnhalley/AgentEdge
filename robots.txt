@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://agentedge.ie/sitemap.xml
+
+# Disallow sensitive files
+Disallow: /firebase.json
+Disallow: /.firebase/
+Disallow: /admin.html

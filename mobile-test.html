@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Optimization Test - AgentEdge</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .test-section {
+            padding: var(--space-2xl) 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--light-gray);
+        }
+        .test-title {
+            color: var(--primary-black);
+            font-size: var(--font-size-xl);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
+        }
+        .test-card {
+            background: var(--lightest-gray);
+            padding: var(--space-lg);
+            border-radius: var(--border-radius-lg);
+            text-align: center;
+        }
+        .status-good { color: var(--success); }
+        .status-info { color: var(--primary-black); }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <img src="images/logo.svg" alt="AgentEdge" class="logo">
+                    <span class="brand-text">AgentEdge</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="services.html" class="nav-link">Services</a></li>
+                    <li><a href="how-it-works.html" class="nav-link">How It Works</a></li>
+                    <li><a href="pricing-calculator.html" class="nav-link">Pricing</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                <a href="contact.html" class="cta-button">Get Free Audit</a>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container-centered">
+            <div class="hero-author">
+                <div class="author-avatar">
+                    <img src="images/sarah-edwards.jpg" alt="Sarah Edwards" class="author-photo">
+                </div>
+                <span class="author-name">Mobile Test Page</span>
+            </div>
+            
+            <h1 class="hero-main-title">Mobile Optimization Test</h1>
+            <h2 class="hero-sub-title">Testing responsive design improvements</h2>
+            
+            <p class="hero-subtitle-centered">This page demonstrates the mobile optimizations applied to the AgentEdge website.</p>
+            
+            <div class="hero-cta-centered">
+                <a href="contact.html" class="cta-button-centered primary">
+                    Test Touch Interaction
+                </a>
+            </div>
+            
+            <div class="hero-badges-centered">
+                <div class="hero-badge-small">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>Mobile Optimized</span>
+                </div>
+                <div class="hero-badge-small">
+                    <i class="fas fa-hand-pointer"></i>
+                    <span>Touch Friendly</span>
+                </div>
+                <div class="hero-badge-small">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Performance Enhanced</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Optimization Features -->
+    <section class="test-section">
+        <div class="container">
+            <h2 class="test-title">Mobile Optimization Features</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <i class="fas fa-mobile-alt status-good" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <h3>Responsive Design</h3>
+                    <p>Fully responsive layout that adapts to all screen sizes</p>
+                    <span class="status-good">✓ Implemented</span>
+                </div>
+                <div class="test-card">
+                    <i class="fas fa-bars status-good" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <h3>Mobile Navigation</h3>
+                    <p>Full-screen hamburger menu with smooth animations</p>
+                    <span class="status-good">✓ Implemented</span>
+                </div>
+                <div class="test-card">
+                    <i class="fas fa-hand-pointer status-good" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <h3>Touch-Friendly</h3>
+                    <p>48px minimum touch targets and tactile feedback</p>
+                    <span class="status-good">✓ Implemented</span>
+                </div>
+                <div class="test-card">
+                    <i class="fas fa-font status-good" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <h3>Optimized Typography</h3>
+                    <p>Improved font sizes and line heights for mobile reading</p>
+                    <span class="status-good">✓ Implemented</span>
+                </div>
+                <div class="test-card">
+                    <i class="fas fa-image status-good" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <h3>Responsive Images</h3>
+                    <p>Images that scale properly and load efficiently</p>
+                    <span class="status-good">✓ Implemented</span>
+                </div>
+                <div class="test-card">
+                    <i class="fas fa-edit status-good" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <h3>Form Optimization</h3>
+                    <p>Mobile-friendly forms with proper input types</p>
+                    <span class="status-good">✓ Implemented</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Test Form -->
+    <section class="test-section" style="background: var(--lightest-gray);">
+        <div class="container">
+            <h2 class="test-title">Touch-Friendly Form Test</h2>
+            <div class="form-container">
+                <form class="audit-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="test-name">Name</label>
+                            <input type="text" id="test-name" name="name" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="test-email">Email</label>
+                            <input type="email" id="test-email" name="email" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="test-county">County</label>
+                        <select id="test-county" name="county" required>
+                            <option value="">Select your county</option>
+                            <option value="dublin">Dublin</option>
+                            <option value="cork">Cork</option>
+                            <option value="galway">Galway</option>
+                            <option value="kerry">Kerry</option>
+                            <option value="mayo">Mayo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Test Radio Options</label>
+                        <div class="challenge-options">
+                            <div class="challenge-option">
+                                <input type="radio" id="option1" name="test-option" value="option1">
+                                <label for="option1" class="option-content">
+                                    <i class="fas fa-check"></i>
+                                    <span>Option 1</span>
+                                </label>
+                            </div>
+                            <div class="challenge-option">
+                                <input type="radio" id="option2" name="test-option" value="option2">
+                                <label for="option2" class="option-content">
+                                    <i class="fas fa-star"></i>
+                                    <span>Option 2</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">
+                        <span class="button-text">Test Submit Button</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Main Site -->
+    <section class="test-section">
+        <div class="container" style="text-align: center;">
+            <h2 class="test-title">Test Complete</h2>
+            <p>The mobile optimizations are now active across the entire website.</p>
+            <div style="margin-top: var(--space-xl);">
+                <a href="index.html" class="cta-button primary large">
+                    <i class="fas fa-home"></i>
+                    Return to Homepage
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script>
+        // Prevent form submission for testing
+        document.querySelector('.audit-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Form test successful! Mobile optimizations are working.');
+        });
+    </script>
+</body>
+</html>

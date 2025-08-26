@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgentEdge Admin - Lead Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .admin-header {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+        }
+        
+        .leads-section {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .leads-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .leads-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .leads-table th,
+        .leads-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .leads-table th {
+            background: var(--light-gray);
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+        
+        .lead-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-new {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .status-contacted {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .status-qualified {
+            background: #e8f5e8;
+            color: #388e3c;
+        }
+        
+        .status-closed {
+            background: #fafafa;
+            color: #616161;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-small {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.8rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--medium-gray);
+            color: white;
+        }
+        
+        .btn-success {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .login-form {
+            max-width: 400px;
+            margin: 4rem auto;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .export-section {
+            margin-bottom: 2rem;
+        }
+        
+        .export-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 0 0.5rem;
+            }
+            
+            .leads-table {
+                font-size: 0.8rem;
+            }
+            
+            .leads-table th,
+            .leads-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Form (shown initially) -->
+    <div id="loginForm" class="login-form">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <img src="images/logo.svg" alt="AgentEdge" style="height: 40px;">
+            <h2 style="margin-top: 1rem;">Admin Login</h2>
+            <p style="color: var(--medium-gray);">Access your lead management dashboard</p>
+        </div>
+        
+        <form onsubmit="login(event)">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="cta-button primary" style="width: 100%;">
+                <i class="fas fa-sign-in-alt"></i>
+                Login
+            </button>
+        </form>
+        
+        <div id="loginError" style="color: red; margin-top: 1rem; text-align: center; display: none;">
+            Invalid credentials. Please try again.
+        </div>
+    </div>
+
+    <!-- Admin Dashboard (hidden initially) -->
+    <div id="adminDashboard" style="display: none;">
+        <div class="admin-container">
+            <div class="admin-header">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h1>Lead Management Dashboard</h1>
+                        <p style="color: var(--medium-gray); margin: 0;">Track and manage your AgentEdge leads</p>
+                    </div>
+                    <button onclick="logout()" class="btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalLeads">0</div>
+                    <div class="stat-label">Total Leads</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="newLeads">0</div>
+                    <div class="stat-label">New Leads</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="qualifiedLeads">0</div>
+                    <div class="stat-label">Qualified Leads</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="conversionRate">0%</div>
+                    <div class="stat-label">Conversion Rate</div>
+                </div>
+            </div>
+
+            <!-- Export Section -->
+            <div class="export-section">
+                <div class="export-buttons">
+                    <button onclick="exportToCSV()" class="cta-button secondary">
+                        <i class="fas fa-download"></i>
+                        Export to CSV
+                    </button>
+                    <button onclick="clearAllLeads()" class="btn-secondary" style="background: #f44336;">
+                        <i class="fas fa-trash"></i>
+                        Clear All Leads
+                    </button>
+                </div>
+            </div>
+
+            <!-- Leads Table -->
+            <div class="leads-section">
+                <div class="leads-header">
+                    <h3>Recent Leads</h3>
+                    <button onclick="refreshLeads()" class="btn-primary">
+                        <i class="fas fa-refresh"></i>
+                        Refresh
+                    </button>
+                </div>
+                
+                <table class="leads-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>County</th>
+                            <th>Challenge</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leadsTableBody">
+                        <!-- Sample data - replace with actual leads -->
+                        <tr>
+                            <td>2024-01-15</td>
+                            <td>John Murphy</td>
+                            <td>john@murphyestates.ie</td>
+                            <td>Leitrim</td>
+                            <td>No leads</td>
+                            <td><span class="lead-status status-new">New</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-small btn-primary" onclick="contactLead('john@murphyestates.ie')">
+                                        <i class="fas fa-envelope"></i>
+                                        Contact
+                                    </button>
+                                    <button class="btn-small btn-success" onclick="updateStatus(this, 'qualified')">
+                                        <i class="fas fa-check"></i>
+                                        Qualify
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2024-01-14</td>
+                            <td>Sarah O'Brien</td>
+                            <td>sarah@obrienproperties.ie</td>
+                            <td>Mayo</td>
+                            <td>Poor website</td>
+                            <td><span class="lead-status status-contacted">Contacted</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-small btn-primary" onclick="contactLead('sarah@obrienproperties.ie')">
+                                        <i class="fas fa-envelope"></i>
+                                        Contact
+                                    </button>
+                                    <button class="btn-small btn-success" onclick="updateStatus(this, 'qualified')">
+                                        <i class="fas fa-check"></i>
+                                        Qualify
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2024-01-13</td>
+                            <td>Michael Fitzgerald</td>
+                            <td>mike@fitzgeraldestates.ie</td>
+                            <td>Kerry</td>
+                            <td>Social media</td>
+                            <td><span class="lead-status status-qualified">Qualified</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-small btn-primary" onclick="contactLead('mike@fitzgeraldestates.ie')">
+                                        <i class="fas fa-envelope"></i>
+                                        Contact
+                                    </button>
+                                    <button class="btn-small btn-secondary" onclick="updateStatus(this, 'closed')">
+                                        <i class="fas fa-times"></i>
+                                        Close
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple authentication (replace with proper backend authentication)
+        const ADMIN_USERNAME = 'admin';
+        const ADMIN_PASSWORD = 'agentedge2024';
+        
+        // Sample leads data (replace with actual database/API calls)
+        let leadsData = [
+            {
+                date: '2024-01-15',
+                firstName: 'John',
+                lastName: 'Murphy',
+                email: 'john@murphyestates.ie',
+                county: 'Leitrim',
+                challenge: 'no-leads',
+                status: 'new',
+                goals: 'Need more valuation requests'
+            },
+            {
+                date: '2024-01-14',
+                firstName: 'Sarah',
+                lastName: 'O\'Brien',
+                email: 'sarah@obrienproperties.ie',
+                county: 'Mayo',
+                challenge: 'no-website',
+                status: 'contacted',
+                goals: 'Better online presence'
+            },
+            {
+                date: '2024-01-13',
+                firstName: 'Michael',
+                lastName: 'Fitzgerald',
+                email: 'mike@fitzgeraldestates.ie',
+                county: 'Kerry',
+                challenge: 'social-media',
+                status: 'qualified',
+                goals: 'Professional social media'
+            }
+        ];
+
+        function login(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('adminDashboard').style.display = 'block';
+                updateStats();
+                loadLeads();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        function logout() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('adminDashboard').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        function updateStats() {
+            const totalLeads = leadsData.length;
+            const newLeads = leadsData.filter(lead => lead.status === 'new').length;
+            const qualifiedLeads = leadsData.filter(lead => lead.status === 'qualified').length;
+            const conversionRate = totalLeads > 0 ? Math.round((qualifiedLeads / totalLeads) * 100) : 0;
+
+            document.getElementById('totalLeads').textContent = totalLeads;
+            document.getElementById('newLeads').textContent = newLeads;
+            document.getElementById('qualifiedLeads').textContent = qualifiedLeads;
+            document.getElementById('conversionRate').textContent = conversionRate + '%';
+        }
+
+        function loadLeads() {
+            const tbody = document.getElementById('leadsTableBody');
+            tbody.innerHTML = '';
+
+            leadsData.forEach((lead, index) => {
+                const row = document.createElement('tr');
+                const challengeText = getChallengeText(lead.challenge);
+                const statusClass = `status-${lead.status}`;
+                const statusText = lead.status.charAt(0).toUpperCase() + lead.status.slice(1);
+
+                row.innerHTML = `
+                    <td>${lead.date}</td>
+                    <td>${lead.firstName} ${lead.lastName}</td>
+                    <td>${lead.email}</td>
+                    <td>${lead.county}</td>
+                    <td>${challengeText}</td>
+                    <td><span class="lead-status ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-small btn-primary" onclick="contactLead('${lead.email}')">
+                                <i class="fas fa-envelope"></i>
+                                Contact
+                            </button>
+                            <button class="btn-small btn-success" onclick="updateLeadStatus(${index}, 'qualified')">
+                                <i class="fas fa-check"></i>
+                                Qualify
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function getChallengeText(challenge) {
+            const challenges = {
+                'no-website': 'No/outdated website',
+                'no-leads': 'Not enough leads',
+                'social-media': 'Poor social media',
+                'google-visibility': 'Not on Google',
+                'competition': 'Losing to competitors',
+                'time': 'No time for marketing'
+            };
+            return challenges[challenge] || challenge;
+        }
+
+        function contactLead(email) {
+            const subject = encodeURIComponent('AgentEdge - Following up on your free audit request');
+            const body = encodeURIComponent(`Hi,\n\nThank you for requesting a free audit from AgentEdge. I wanted to personally follow up on your request.\n\nI've analyzed your current marketing situation and have some specific recommendations that could help you win more valuations in your area.\n\nWould you be available for a brief 10-minute call this week to discuss your goals and how we can help?\n\nBest regards,\nSarah Edwards\nAgentEdge`);
+            
+            window.open(`mailto:${email}?subject=${subject}&body=${body}`);
+        }
+
+        function updateLeadStatus(index, newStatus) {
+            leadsData[index].status = newStatus;
+            updateStats();
+            loadLeads();
+        }
+
+        function refreshLeads() {
+            // In a real application, this would fetch fresh data from your backend
+            loadLeads();
+            updateStats();
+            
+            // Show a brief success message
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> Updated';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 2000);
+        }
+
+        function exportToCSV() {
+            const headers = ['Date', 'First Name', 'Last Name', 'Email', 'County', 'Challenge', 'Status', 'Goals'];
+            const csvContent = [
+                headers.join(','),
+                ...leadsData.map(lead => [
+                    lead.date,
+                    lead.firstName,
+                    lead.lastName,
+                    lead.email,
+                    lead.county,
+                    getChallengeText(lead.challenge),
+                    lead.status,
+                    `"${lead.goals || ''}"`
+                ].join(','))
+            ].join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `agentedge-leads-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function clearAllLeads() {
+            if (confirm('Are you sure you want to clear all leads? This action cannot be undone.')) {
+                leadsData = [];
+                updateStats();
+                loadLeads();
+            }
+        }
+
+        // Initialize with sample data
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-populate login for demo (remove in production)
+            document.getElementById('username').value = ADMIN_USERNAME;
+            document.getElementById('password').value = ADMIN_PASSWORD;
+        });
+    </script>
+</body>
+</html>
+

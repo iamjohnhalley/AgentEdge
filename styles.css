@@ -62,6 +62,9 @@
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    
+    /* Mobile viewport height fix */
+    --vh: 1vh;
 }
 
 body {
@@ -287,6 +290,7 @@ a:hover {
     position: relative;
     text-align: center;
     min-height: 85vh;
+    min-height: calc(var(--vh, 1vh) * 85);
     display: flex;
     align-items: center;
 }
@@ -3435,6 +3439,168 @@ a:hover {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
+/* Enhanced Mobile Navigation */
+.nav-container {
+    position: relative;
+    padding: 0 var(--space-md);
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+    padding: var(--space-sm);
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s ease;
+    z-index: 1001;
+}
+
+.hamburger:hover {
+    background-color: var(--lighter-gray);
+}
+
+.hamburger span {
+    width: 24px;
+    height: 3px;
+    background: var(--charcoal);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Mobile Menu Overlay */
+.nav-menu {
+    transition: all 0.3s ease;
+}
+
+/* Touch-friendly buttons */
+.cta-button {
+    min-height: 48px;
+    min-width: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Add ripple effect for better touch feedback */
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.cta-button:active::before {
+    width: 300px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+}
+
+/* Better focus states for accessibility */
+.cta-button:focus {
+    outline: 2px solid var(--primary-black);
+    outline-offset: 2px;
+}
+
+.cta-button:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.cta-button:focus-visible {
+    outline: 2px solid var(--primary-black);
+    outline-offset: 2px;
+}
+
+/* Responsive Images */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.logo {
+    width: auto;
+    height: 32px;
+}
+
+.author-photo,
+.author-avatar img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Hero image optimizations */
+.hero-image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-xl);
+}
+
+/* Service icons responsive */
+.service-icon,
+.benefit-icon,
+.category-icon {
+    flex-shrink: 0;
+}
+
+/* Gallery and showcase images */
+.showcase-image img,
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/* Lazy loading placeholder */
+img[data-src] {
+    background: var(--lighter-gray);
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+img[data-src]::before {
+    content: '📷';
+    font-size: 2rem;
+    opacity: 0.5;
+}
+
+/* Improved button spacing for touch */
+.hero-cta-centered {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    width: 100%;
+    flex-wrap: wrap;
+    margin-bottom: var(--space-xl);
+}
+
+.cta-button-centered {
+    min-width: 180px;
+    max-width: 280px;
+    min-height: 48px;
+    text-align: center;
+    flex: 0 0 auto;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .hero {
@@ -3476,6 +3642,15 @@ a:hover {
         grid-template-columns: 1fr;
         text-align: center;
     }
+    
+    /* Better tablet navigation */
+    .nav-menu {
+        gap: var(--space-md);
+    }
+    
+    .nav-link {
+        padding: var(--space-sm) var(--space-md);
+    }
 }
 
 @media (max-width: 768px) {
@@ -3483,29 +3658,71 @@ a:hover {
         padding: 0 var(--space-md);
     }
     
+    /* Enhanced Mobile Navigation */
     .nav-menu {
         display: none;
-        position: absolute;
-        top: 100%;
+        position: fixed;
+        top: 0;
         left: 0;
-        right: 0;
+        width: 100%;
+        height: 100vh;
         background: var(--white);
-        box-shadow: var(--shadow-lg);
         flex-direction: column;
-        padding: var(--space-lg);
-        gap: var(--space-md);
+        justify-content: center;
+        align-items: center;
+        gap: var(--space-xl);
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
     }
     
     .nav-menu.active {
         display: flex;
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .nav-menu li {
+        transform: translateY(20px);
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-menu.active li {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
+    .nav-menu.active li:nth-child(1) { transition-delay: 0.1s; }
+    .nav-menu.active li:nth-child(2) { transition-delay: 0.2s; }
+    .nav-menu.active li:nth-child(3) { transition-delay: 0.3s; }
+    .nav-menu.active li:nth-child(4) { transition-delay: 0.4s; }
+    .nav-menu.active li:nth-child(5) { transition-delay: 0.5s; }
+    .nav-menu.active li:nth-child(6) { transition-delay: 0.6s; }
+    
+    .nav-link {
+        font-size: var(--font-size-xl);
+        font-weight: 600;
+        padding: var(--space-lg);
+        border-radius: var(--border-radius-lg);
+        transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover {
+        background: var(--lighter-gray);
+        transform: translateX(10px);
     }
     
     .hamburger {
         display: flex;
+        position: relative;
+        z-index: 1001;
     }
     
     .hamburger.active span:nth-child(1) {
         transform: rotate(45deg) translate(5px, 5px);
+        background: var(--primary-black);
     }
     
     .hamburger.active span:nth-child(2) {
@@ -3514,16 +3731,38 @@ a:hover {
     
     .hamburger.active span:nth-child(3) {
         transform: rotate(-45deg) translate(7px, -6px);
+        background: var(--primary-black);
+    }
+    
+    /* Hide desktop CTA in mobile nav */
+    .nav-container > .cta-button {
+        display: none;
+    }
+    
+    /* Add mobile CTA to menu */
+    .nav-menu::after {
+        content: '';
+        display: block;
+        margin-top: var(--space-xl);
     }
     
     .sticky-cta-content {
         flex-direction: column;
         gap: var(--space-sm);
         text-align: center;
+        padding: 0 var(--space-md);
     }
     
     .sticky-cta-text {
         align-items: center;
+    }
+    
+    .sticky-cta-text strong {
+        font-size: var(--font-size-base);
+    }
+    
+    .sticky-cta-text span {
+        font-size: var(--font-size-xs);
     }
     
     .hero-title {
@@ -3544,6 +3783,11 @@ a:hover {
     .hero-cta .cta-button {
         width: 100%;
         justify-content: center;
+    }
+    
+    .hero-cta-centered {
+        flex-direction: column;
+        gap: var(--space-lg);
     }
     
     .hero-guarantees {
@@ -3707,8 +3951,42 @@ a:hover {
         gap: var(--space-md);
     }
     
-    h1 { font-size: var(--font-size-3xl); }
-    h2 { font-size: var(--font-size-2xl); }
+    /* Improved mobile typography hierarchy */
+    h1 { 
+        font-size: var(--font-size-3xl); 
+        line-height: 1.1;
+        margin-bottom: var(--space-lg);
+    }
+    h2 { 
+        font-size: var(--font-size-2xl);
+        line-height: 1.2;
+        margin-bottom: var(--space-md);
+    }
+    h3 {
+        font-size: var(--font-size-xl);
+        line-height: 1.3;
+    }
+    h4 {
+        font-size: var(--font-size-lg);
+        line-height: 1.4;
+    }
+    
+    p {
+        font-size: var(--font-size-base);
+        line-height: 1.6;
+        margin-bottom: var(--space-md);
+    }
+    
+    /* Better button hierarchy */
+    .cta-button.large {
+        font-size: var(--font-size-lg);
+        padding: var(--space-lg) var(--space-xl);
+        min-height: 56px;
+    }
+    
+    .cta-button.primary {
+        font-weight: 700;
+    }
 }
 
 @media (max-width: 480px) {
@@ -4334,6 +4612,96 @@ a:hover {
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
 }
+
+/* Enhanced Mobile Optimizations */
+@media (max-width: 480px) {
+    /* Improved mobile hero section */
+    .hero-container-centered {
+        padding: 0 var(--space-lg);
+    }
+    
+    .hero-main-title {
+        line-height: 1.1;
+        margin-bottom: var(--space-lg);
+    }
+    
+    .hero-sub-title {
+        line-height: 1.3;
+        margin-bottom: var(--space-xl);
+    }
+    
+    .hero-subtitle-centered {
+        font-size: var(--font-size-lg);
+        line-height: 1.4;
+        margin-bottom: var(--space-xl);
+    }
+    
+    /* Enhanced mobile CTAs */
+    .cta-button-centered {
+        padding: var(--space-lg) var(--space-xl);
+        font-size: var(--font-size-lg);
+        font-weight: 700;
+        width: 100%;
+        max-width: 280px;
+        min-width: auto;
+        min-height: 56px;
+        border-radius: var(--border-radius-lg);
+        flex: 1 1 100%;
+    }
+    
+    .hero-badge-small {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+        padding: var(--space-md) var(--space-lg);
+        font-size: var(--font-size-base);
+    }
+    
+    /* Better section spacing */
+    .section-title {
+        font-size: var(--font-size-2xl);
+        line-height: 1.2;
+        margin-bottom: var(--space-xl);
+        padding: 0 var(--space-md);
+        text-align: center;
+    }
+    
+    /* Card improvements */
+    .service-breakdown {
+        gap: var(--space-lg);
+    }
+    
+    .service-category {
+        padding: var(--space-xl);
+    }
+    
+    /* Better form spacing */
+    .what-you-get-header h2 {
+        font-size: var(--font-size-2xl);
+        line-height: 1.2;
+        padding: 0 var(--space-md);
+    }
+    
+    .what-you-get-header p {
+        font-size: var(--font-size-base);
+        padding: 0 var(--space-md);
+    }
+    
+    /* Improved author section */
+    .hero-author {
+        margin-bottom: var(--space-xl);
+        gap: var(--space-lg);
+    }
+    
+    .author-photo {
+        width: 56px;
+        height: 56px;
+    }
+    
+    .author-name {
+        font-size: var(--font-size-lg);
+    }
+}
 /* Contact Form UX/UI Improvements */
 
 /* Better form container */
@@ -4667,5 +5035,78 @@ a:hover {
     
     .form-step h3 {
         font-size: var(--font-size-lg);
+    }
+    
+    /* Enhanced mobile form optimizations */
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        min-height: 48px;
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: var(--space-lg);
+        border-radius: var(--border-radius-lg);
+        border: 2px solid var(--light-gray);
+        transition: all 0.3s ease;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: var(--primary-black);
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        transform: scale(1.02);
+    }
+    
+    .form-group label {
+        font-size: var(--font-size-base);
+        font-weight: 600;
+        margin-bottom: var(--space-md);
+        color: var(--primary-black);
+    }
+    
+    /* Better checkbox and radio styling */
+    .challenge-option {
+        margin-bottom: var(--space-md);
+    }
+    
+    .option-content {
+        min-height: 64px;
+        padding: var(--space-lg);
+        border-radius: var(--border-radius-lg);
+        transition: all 0.3s ease;
+    }
+    
+    .option-content:hover,
+    .challenge-option input[type="radio"]:checked + .option-content {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--primary-black);
+    }
+    
+    /* Better submit button for mobile */
+    .submit-button {
+        min-height: 56px;
+        font-size: var(--font-size-lg);
+        font-weight: 700;
+        border-radius: var(--border-radius-lg);
+        margin-top: var(--space-xl);
+        transition: all 0.3s ease;
+    }
+    
+    .submit-button:active {
+        transform: scale(0.98);
+    }
+    
+    /* Improved progress bar */
+    .progress-bar {
+        height: 6px;
+        border-radius: 3px;
+        margin-bottom: var(--space-lg);
+    }
+    
+    .progress-text {
+        font-size: var(--font-size-base);
+        font-weight: 600;
+        color: var(--primary-black);
     }
 }

@@ -5,7 +5,7 @@ let currentStep = 1;
 const totalSteps = 4;
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile Navigation Toggle
+    // Enhanced Mobile Navigation Toggle
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     
@@ -13,6 +13,41 @@ document.addEventListener('DOMContentLoaded', function() {
         hamburger.addEventListener('click', function() {
             navMenu.classList.toggle('active');
             hamburger.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if (navMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close menu when clicking on nav links
+        const navLinks = navMenu.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close menu on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         });
     }
 
@@ -61,6 +96,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (auditForm) {
         auditForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            console.log('Form submission triggered');
+            
+            // Validate the final step
+            if (!validateCurrentStep()) {
+                console.log('Form validation failed');
+                alert('Please fill in all required fields before submitting.');
+                return;
+            }
             
             const submitButton = auditForm.querySelector('.submit-button');
             const buttonText = submitButton.querySelector('.button-text');
@@ -73,14 +116,54 @@ document.addEventListener('DOMContentLoaded', function() {
                 submitButton.disabled = true;
             }
             
-            // Simulate form submission (replace with actual form handling)
+            // Collect form data
+            const formData = new FormData(auditForm);
+            const templateParams = {
+                firstName: formData.get('firstName') || '',
+                lastName: formData.get('lastName') || '',
+                email: formData.get('email') || '',
+                phone: formData.get('phone') || '',
+                county: formData.get('county') || '',
+                agencyName: formData.get('agencyName') || '',
+                website: formData.get('website') || '',
+                challenges: formData.get('challenges') || '',
+                goals: formData.get('goals') || '',
+                submissionDate: new Date().toLocaleDateString('en-IE'),
+                submissionTime: new Date().toLocaleTimeString('en-IE')
+            };
+
+            // Create mailto link with form data
+            const subject = encodeURIComponent('🚀 New Audit Request from ' + templateParams.firstName + ' ' + templateParams.lastName);
+            const body = encodeURIComponent(`
+📋 NEW AUDIT REQUEST RECEIVED
+
+👤 CONTACT INFORMATION:
+Name: ${templateParams.firstName} ${templateParams.lastName}
+Email: ${templateParams.email}
+Phone: ${templateParams.phone}
+
+🏢 BUSINESS DETAILS:
+County: ${templateParams.county}
+Agency Name: ${templateParams.agencyName}
+Current Website: ${templateParams.website || 'None provided'}
+
+🎯 MAIN CHALLENGE:
+${getChallengeText(templateParams.challenges)}
+
+📝 GOALS:
+${templateParams.goals || 'Not specified'}
+
+⏰ SUBMITTED:
+${templateParams.submissionDate} at ${templateParams.submissionTime}
+
+---
+Reply to this email to contact the lead directly.
+            `.trim());
+            
+            // Simulate processing delay for better UX
             setTimeout(() => {
-                // Reset button state
-                if (buttonText && buttonLoading) {
-                    buttonText.style.display = 'inline';
-                    buttonLoading.style.display = 'none';
-                    submitButton.disabled = false;
-                }
+                // Open email client with pre-filled content
+                window.open(`mailto:johnhalley1994@gmail.com?subject=${subject}&body=${body}`);
                 
                 // Show success modal
                 if (successModal) {
@@ -89,15 +172,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Reset form
                 auditForm.reset();
+                currentStep = 1;
+                updateFormStep();
                 
-                // Track form submission (replace with actual analytics)
+                // Track successful form submission
                 if (typeof gtag !== 'undefined') {
                     gtag('event', 'form_submit', {
                         'event_category': 'engagement',
                         'event_label': 'audit_request'
                     });
                 }
-            }, 2000);
+                
+                // Reset button state
+                if (buttonText && buttonLoading) {
+                    buttonText.style.display = 'inline';
+                    buttonLoading.style.display = 'none';
+                    submitButton.disabled = false;
+                }
+            }, 1500);
+            
+            // Helper function to convert challenge codes to readable text
+            function getChallengeText(challenge) {
+                const challenges = {
+                    'no-website': 'No website or outdated website',
+                    'no-leads': 'Not getting enough leads',
+                    'social-media': 'Poor social media presence',
+                    'google-visibility': 'Not showing up on Google',
+                    'competition': 'Losing business to competitors',
+                    'time': 'No time for marketing'
+                };
+                return challenges[challenge] || challenge || 'Not specified';
+            }
         });
     }
     
@@ -427,11 +532,30 @@ function validateCurrentStep() {
     let isValid = true;
     
     requiredFields.forEach(field => {
-        if (!field.value.trim()) {
-            isValid = false;
-            field.classList.add('error');
+        // Handle different field types
+        if (field.type === 'checkbox') {
+            if (!field.checked) {
+                isValid = false;
+                field.classList.add('error');
+            } else {
+                field.classList.remove('error');
+            }
+        } else if (field.type === 'radio') {
+            const radioGroup = currentStepEl.querySelectorAll(`input[name="${field.name}"]`);
+            const isRadioChecked = Array.from(radioGroup).some(radio => radio.checked);
+            if (!isRadioChecked) {
+                isValid = false;
+                radioGroup.forEach(radio => radio.classList.add('error'));
+            } else {
+                radioGroup.forEach(radio => radio.classList.remove('error'));
+            }
         } else {
-            field.classList.remove('error');
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add('error');
+            } else {
+                field.classList.remove('error');
+            }
         }
     });
     
@@ -561,6 +685,90 @@ if ('IntersectionObserver' in window) {
     const lazyImages = document.querySelectorAll('img[data-src]');
     lazyImages.forEach(img => imageObserver.observe(img));
 }
+
+// Mobile-specific optimizations
+function initMobileOptimizations() {
+    // Touch feedback for buttons
+    const buttons = document.querySelectorAll('.cta-button, .btn-next, .btn-prev, .submit-button');
+    buttons.forEach(button => {
+        button.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+        });
+        
+        button.addEventListener('touchend', function() {
+            this.style.transform = '';
+        });
+        
+        button.addEventListener('touchcancel', function() {
+            this.style.transform = '';
+        });
+    });
+    
+    // Improve form input focus on mobile
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            // Scroll input into view on mobile
+            if (window.innerWidth <= 768) {
+                setTimeout(() => {
+                    this.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }, 300);
+            }
+        });
+    });
+    
+    // Optimize scroll performance
+    let ticking = false;
+    function updateScrollElements() {
+        // Update sticky CTA and other scroll-dependent elements
+        const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        const stickyCTA = document.getElementById('stickyCTA');
+        
+        if (stickyCTA) {
+            if (scrollPercent > 25) {
+                stickyCTA.classList.add('show');
+            } else if (scrollPercent <= 10) {
+                stickyCTA.classList.remove('show');
+            }
+        }
+        
+        ticking = false;
+    }
+    
+    function requestScrollUpdate() {
+        if (!ticking) {
+            requestAnimationFrame(updateScrollElements);
+            ticking = true;
+        }
+    }
+    
+    // Use passive listeners for better performance
+    window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+    
+    // Handle orientation changes
+    window.addEventListener('orientationchange', function() {
+        // Recalculate layouts after orientation change
+        setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+        }, 100);
+    });
+    
+    // Add viewport height fix for mobile browsers
+    function setViewportHeight() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+}
+
+// Initialize mobile optimizations
+initMobileOptimizations();
 
 // Service Worker Registration for PWA capabilities
 if ('serviceWorker' in navigator) {
