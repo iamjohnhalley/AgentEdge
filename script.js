@@ -165,6 +165,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Collect form data
             console.log('📊 DEBUG: Collecting form data');
             const formData = new FormData(auditForm);
+            
+            // Auto-format website URL if provided
+            let websiteUrl = formData.get('website') || '';
+            if (websiteUrl && !websiteUrl.startsWith('http://') && !websiteUrl.startsWith('https://')) {
+                websiteUrl = 'https://' + websiteUrl;
+                console.log('🔧 DEBUG: Auto-formatted website URL:', websiteUrl);
+            }
+            
             const templateParams = {
                 firstName: formData.get('firstName') || '',
                 lastName: formData.get('lastName') || '',
@@ -172,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 phone: formData.get('phone') || '',
                 county: formData.get('county') || '',
                 agencyName: formData.get('agencyName') || '',
-                website: formData.get('website') || '',
+                website: websiteUrl,
                 challenges: formData.get('challenges') || '',
                 goals: formData.get('goals') || '',
                 submissionDate: new Date().toLocaleDateString('en-IE'),
@@ -209,11 +217,11 @@ ${templateParams.submissionDate} at ${templateParams.submissionTime}
 Reply to this email to contact the lead directly.
             `.trim());
             
-            // Try EmailJS first, fallback to mailto
-            console.log('📧 DEBUG: Checking EmailJS availability');
-            console.log('📧 DEBUG: EmailJS available:', typeof emailjs !== 'undefined');
+            // Use mailto method directly (EmailJS not properly configured)
+            console.log('📧 DEBUG: Using mailto method for reliable form submission');
+            console.log('📧 DEBUG: EmailJS disabled due to configuration issues');
             
-            if (typeof emailjs !== 'undefined') {
+            if (false) { // Temporarily disable EmailJS
                 console.log('✅ DEBUG: EmailJS is available, attempting to send');
                 
                 const emailJSParams = {
@@ -678,6 +686,37 @@ function updateProgressText() {
     };
     
     progressText.textContent = stepTexts[currentStep] || '';
+}
+
+function updateFormStep() {
+    console.log('🔄 DEBUG: updateFormStep called, current step:', currentStep);
+    
+    // Hide all steps
+    const steps = document.querySelectorAll('.form-step');
+    steps.forEach(step => step.classList.remove('active'));
+    
+    // Show current step
+    const currentStepEl = document.querySelector(`[data-step="${currentStep}"]`);
+    if (currentStepEl) {
+        currentStepEl.classList.add('active');
+        console.log('✅ DEBUG: Activated step', currentStep);
+    } else {
+        console.log('❌ DEBUG: Could not find step element for step', currentStep);
+    }
+    
+    // Update progress bar and text
+    updateProgressBar();
+    updateProgressText();
+    
+    // Show/hide submit button
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+        if (currentStep === totalSteps) {
+            submitBtn.style.display = 'block';
+        } else {
+            submitBtn.style.display = 'none';
+        }
+    }
 }
 
 function validateCurrentStep() {
