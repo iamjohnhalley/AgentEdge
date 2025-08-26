@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - AgentEdge</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container" style="max-width: 600px; margin: 50px auto; padding: 20px;">
+        <h1>Get Your Free Audit</h1>
+        
+        <!-- Simple form that works immediately -->
+        <form action="https://formsubmit.co/sarah@agentedge.ie" method="POST" style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <!-- FormSubmit configuration -->
+            <input type="hidden" name="_subject" value="🚀 New Audit Request from AgentEdge">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_next" value="https://agentedge-b4c8e.web.app/contact.html?success=true">
+            
+            <div style="margin-bottom: 20px;">
+                <label for="name" style="display: block; margin-bottom: 5px; font-weight: 600;">Full Name *</label>
+                <input type="text" id="name" name="name" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="email" style="display: block; margin-bottom: 5px; font-weight: 600;">Email Address *</label>
+                <input type="email" id="email" name="email" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="phone" style="display: block; margin-bottom: 5px; font-weight: 600;">Phone Number</label>
+                <input type="tel" id="phone" name="phone" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="county" style="display: block; margin-bottom: 5px; font-weight: 600;">County *</label>
+                <select id="county" name="county" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+                    <option value="">Select your county</option>
+                    <option value="Carlow">Carlow</option>
+                    <option value="Cavan">Cavan</option>
+                    <option value="Clare">Clare</option>
+                    <option value="Cork">Cork</option>
+                    <option value="Donegal">Donegal</option>
+                    <option value="Dublin">Dublin</option>
+                    <option value="Galway">Galway</option>
+                    <option value="Kerry">Kerry</option>
+                    <option value="Kildare">Kildare</option>
+                    <option value="Kilkenny">Kilkenny</option>
+                    <option value="Laois">Laois</option>
+                    <option value="Leitrim">Leitrim</option>
+                    <option value="Limerick">Limerick</option>
+                    <option value="Longford">Longford</option>
+                    <option value="Louth">Louth</option>
+                    <option value="Mayo">Mayo</option>
+                    <option value="Meath">Meath</option>
+                    <option value="Monaghan">Monaghan</option>
+                    <option value="Offaly">Offaly</option>
+                    <option value="Roscommon">Roscommon</option>
+                    <option value="Sligo">Sligo</option>
+                    <option value="Tipperary">Tipperary</option>
+                    <option value="Waterford">Waterford</option>
+                    <option value="Westmeath">Westmeath</option>
+                    <option value="Wexford">Wexford</option>
+                    <option value="Wicklow">Wicklow</option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="agency" style="display: block; margin-bottom: 5px; font-weight: 600;">Agency Name</label>
+                <input type="text" id="agency" name="agency" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="website" style="display: block; margin-bottom: 5px; font-weight: 600;">Current Website URL</label>
+                <input type="url" id="website" name="website" placeholder="https://yourwebsite.ie" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="challenge" style="display: block; margin-bottom: 5px; font-weight: 600;">Main Challenge *</label>
+                <select id="challenge" name="challenge" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+                    <option value="">Select your main challenge</option>
+                    <option value="No website or outdated website">No website or outdated website</option>
+                    <option value="Not getting enough leads">Not getting enough leads</option>
+                    <option value="Poor social media presence">Poor social media presence</option>
+                    <option value="Not showing up on Google">Not showing up on Google</option>
+                    <option value="Losing business to competitors">Losing business to competitors</option>
+                    <option value="No time for marketing">No time for marketing</option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="goals" style="display: block; margin-bottom: 5px; font-weight: 600;">What would success look like?</label>
+                <textarea id="goals" name="goals" rows="4" placeholder="e.g., More valuation requests, better online presence, competing with larger agencies..." style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; resize: vertical;"></textarea>
+            </div>
+            
+            <div style="margin-bottom: 30px;">
+                <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.4;">
+                    <input type="checkbox" name="consent" required style="margin-top: 2px;">
+                    <span>I agree to receive marketing communications from AgentEdge and understand that my information will be used to provide my free audit. I can unsubscribe at any time. *</span>
+                </label>
+            </div>
+            
+            <button type="submit" style="background: #000; color: white; padding: 15px 30px; border: none; border-radius: 4px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%;">
+                Get My Free Audit
+            </button>
+            
+            <div style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
+                <i>🛡️ 100% Free • No Spam • 24-Hour Response</i>
+            </div>
+        </form>
+        
+        <!-- Success message -->
+        <div id="success-message" style="display: none; background: #d4edda; color: #155724; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center;">
+            <h3>✅ Thank you!</h3>
+            <p>Your audit request has been submitted successfully. We'll send you a detailed report within 24 hours.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Show success message if redirected back with success parameter
+        if (window.location.search.includes('success=true')) {
+            document.getElementById('success-message').style.display = 'block';
+            // Scroll to success message
+            document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

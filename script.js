@@ -5,6 +5,27 @@ let currentStep = 1;
 const totalSteps = 4;
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Check for success parameter in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === 'true') {
+        const successBanner = document.getElementById('form-success');
+        const formSection = document.getElementById('audit-form');
+        
+        if (successBanner) {
+            successBanner.style.display = 'block';
+            // Scroll to success message
+            successBanner.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Hide the form section since it's been submitted
+        if (formSection) {
+            formSection.style.display = 'none';
+        }
+        
+        // Clean up URL
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+    }
     // Enhanced Mobile Navigation Toggle
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -95,15 +116,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (auditForm) {
         auditForm.addEventListener('submit', function(e) {
-            e.preventDefault();
             console.log('Form submission triggered');
             
             // Validate the final step
             if (!validateCurrentStep()) {
                 console.log('Form validation failed');
                 alert('Please fill in all required fields before submitting.');
+                e.preventDefault();
                 return;
             }
+            
+            // If using FormSubmit.co, allow normal form submission
+            if (auditForm.action && auditForm.action.includes('formsubmit.co')) {
+                console.log('Using FormSubmit.co - allowing normal submission');
+                return; // Let the form submit normally
+            }
+            
+            // Otherwise prevent default and use JavaScript submission
+            e.preventDefault();
             
             const submitButton = auditForm.querySelector('.submit-button');
             const buttonText = submitButton.querySelector('.button-text');
@@ -160,12 +190,45 @@ ${templateParams.submissionDate} at ${templateParams.submissionTime}
 Reply to this email to contact the lead directly.
             `.trim());
             
-            // Simulate processing delay for better UX
-            setTimeout(() => {
-                // Open email client with pre-filled content
-                window.open(`mailto:johnhalley1994@gmail.com?subject=${subject}&body=${body}`);
+            // Try server-side form handler first, fallback to mailto
+            fetch('form-handler.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(templateParams)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Success - show modal and reset form
+                    if (successModal) {
+                        successModal.style.display = 'block';
+                    }
+                    
+                    // Reset form
+                    auditForm.reset();
+                    currentStep = 1;
+                    updateFormStep();
+                    
+                    // Track successful form submission
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'form_submit', {
+                            'event_category': 'engagement',
+                            'event_label': 'audit_request'
+                        });
+                    }
+                } else {
+                    throw new Error(data.error || 'Server error');
+                }
+            })
+            .catch(error => {
+                console.error('Server submission failed:', error);
                 
-                // Show success modal
+                // Fallback to mailto
+                window.open(`mailto:sarah@agentedge.ie?subject=${subject}&body=${body}`);
+                
+                // Show success modal anyway
                 if (successModal) {
                     successModal.style.display = 'block';
                 }
@@ -175,21 +238,22 @@ Reply to this email to contact the lead directly.
                 currentStep = 1;
                 updateFormStep();
                 
-                // Track successful form submission
+                // Track fallback submission
                 if (typeof gtag !== 'undefined') {
-                    gtag('event', 'form_submit', {
+                    gtag('event', 'form_submit_fallback', {
                         'event_category': 'engagement',
-                        'event_label': 'audit_request'
+                        'event_label': 'audit_request_mailto'
                     });
                 }
-                
-                // Reset button state
+            })
+            .finally(() => {
+                // Always reset button state
                 if (buttonText && buttonLoading) {
                     buttonText.style.display = 'inline';
                     buttonLoading.style.display = 'none';
                     submitButton.disabled = false;
                 }
-            }, 1500);
+            });
             
             // Helper function to convert challenge codes to readable text
             function getChallengeText(challenge) {
