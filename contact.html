@@ -11,6 +11,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // Initialize EmailJS
+        (function(){
+            emailjs.init("VWoaG6zCGwrPMTbGF"); // Public key for AgentEdge
+        })();
+    </script>
 </head>
 <body>
     <!-- Header -->
@@ -73,12 +79,8 @@
                     </div>
                 </div>
                 
-                <form class="audit-form" id="auditForm" method="POST" action="https://formsubmit.co/sarah@agentedge.ie">
-                    <!-- FormSubmit configuration -->
-                    <input type="hidden" name="_subject" value="🚀 New Audit Request from AgentEdge">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_template" value="table">
-                    <input type="hidden" name="_next" value="https://agentedge-b4c8e.web.app/contact.html?success=true">
+                <form class="audit-form" id="auditForm">
+                    <!-- JavaScript-handled form - no external dependencies -->
                     <div class="form-step active" data-step="1">
                         <h3>Tell us about yourself</h3>
                         <div class="form-row">

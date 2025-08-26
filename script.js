@@ -126,13 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // If using FormSubmit.co, allow normal form submission
-            if (auditForm.action && auditForm.action.includes('formsubmit.co')) {
-                console.log('Using FormSubmit.co - allowing normal submission');
-                return; // Let the form submit normally
-            }
-            
-            // Otherwise prevent default and use JavaScript submission
+            // Always prevent default and use JavaScript submission
             e.preventDefault();
             
             const submitButton = auditForm.querySelector('.submit-button');
@@ -190,18 +184,25 @@ ${templateParams.submissionDate} at ${templateParams.submissionTime}
 Reply to this email to contact the lead directly.
             `.trim());
             
-            // Try server-side form handler first, fallback to mailto
-            fetch('form-handler.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(templateParams)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Success - show modal and reset form
+            // Try EmailJS first, fallback to mailto
+            if (typeof emailjs !== 'undefined') {
+                // Use EmailJS for professional email delivery
+                emailjs.send('service_j6k4k8m', 'template_8h9x2vr', {
+                    from_name: templateParams.firstName + ' ' + templateParams.lastName,
+                    from_email: templateParams.email,
+                    phone: templateParams.phone || 'Not provided',
+                    county: templateParams.county,
+                    agency_name: templateParams.agencyName || 'Not provided',
+                    website: templateParams.website || 'None',
+                    challenge: getChallengeText(templateParams.challenges),
+                    goals: templateParams.goals || 'Not specified',
+                    submission_date: templateParams.submissionDate,
+                    submission_time: templateParams.submissionTime,
+                    to_email: 'sarah@agentedge.ie'
+                })
+                .then(() => {
+                    console.log('EmailJS success');
+                    // Show success modal
                     if (successModal) {
                         successModal.style.display = 'block';
                     }
@@ -215,45 +216,78 @@ Reply to this email to contact the lead directly.
                     if (typeof gtag !== 'undefined') {
                         gtag('event', 'form_submit', {
                             'event_category': 'engagement',
-                            'event_label': 'audit_request'
+                            'event_label': 'audit_request_emailjs'
                         });
                     }
-                } else {
-                    throw new Error(data.error || 'Server error');
-                }
-            })
-            .catch(error => {
-                console.error('Server submission failed:', error);
-                
-                // Fallback to mailto
-                window.open(`mailto:sarah@agentedge.ie?subject=${subject}&body=${body}`);
-                
-                // Show success modal anyway
-                if (successModal) {
-                    successModal.style.display = 'block';
-                }
-                
-                // Reset form
-                auditForm.reset();
-                currentStep = 1;
-                updateFormStep();
-                
-                // Track fallback submission
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'form_submit_fallback', {
-                        'event_category': 'engagement',
-                        'event_label': 'audit_request_mailto'
-                    });
-                }
-            })
-            .finally(() => {
-                // Always reset button state
-                if (buttonText && buttonLoading) {
-                    buttonText.style.display = 'inline';
-                    buttonLoading.style.display = 'none';
-                    submitButton.disabled = false;
-                }
-            });
+                    
+                    // Reset button state
+                    if (buttonText && buttonLoading) {
+                        buttonText.style.display = 'inline';
+                        buttonLoading.style.display = 'none';
+                        submitButton.disabled = false;
+                    }
+                })
+                .catch((error) => {
+                    console.error('EmailJS failed:', error);
+                    // Fallback to mailto
+                    window.open(`mailto:sarah@agentedge.ie?subject=${subject}&body=${body}`);
+                    
+                    // Show success modal anyway
+                    if (successModal) {
+                        successModal.style.display = 'block';
+                    }
+                    
+                    // Reset form
+                    auditForm.reset();
+                    currentStep = 1;
+                    updateFormStep();
+                    
+                    // Track fallback submission
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'form_submit_fallback', {
+                            'event_category': 'engagement',
+                            'event_label': 'audit_request_mailto'
+                        });
+                    }
+                    
+                    // Reset button state
+                    if (buttonText && buttonLoading) {
+                        buttonText.style.display = 'inline';
+                        buttonLoading.style.display = 'none';
+                        submitButton.disabled = false;
+                    }
+                });
+            } else {
+                // Fallback to mailto if EmailJS not available
+                setTimeout(() => {
+                    window.open(`mailto:sarah@agentedge.ie?subject=${subject}&body=${body}`);
+                    
+                    // Show success modal
+                    if (successModal) {
+                        successModal.style.display = 'block';
+                    }
+                    
+                    // Reset form
+                    auditForm.reset();
+                    currentStep = 1;
+                    updateFormStep();
+                    
+                    // Track successful form submission
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'form_submit', {
+                            'event_category': 'engagement',
+                            'event_label': 'audit_request_mailto'
+                        });
+                    }
+                    
+                    // Reset button state
+                    if (buttonText && buttonLoading) {
+                        buttonText.style.display = 'inline';
+                        buttonLoading.style.display = 'none';
+                        submitButton.disabled = false;
+                    }
+                }, 1500);
+            }
             
             // Helper function to convert challenge codes to readable text
             function getChallengeText(challenge) {
